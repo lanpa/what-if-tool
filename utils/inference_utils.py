@@ -859,4 +859,9 @@ def run_inference(examples, serving_bundle):
     return (common_utils.convert_prediction_values(preds, serving_bundle),
             extra_results)
   else:
-    return (platform_utils.call_servo(examples, serving_bundle), None)
+    if serving_bundle.inference_address.split(':')[-1] == '8500':
+      res = (platform_utils.call_servo(examples, serving_bundle), None)
+      return res# (platform_utils.call_servo(examples, serving_bundle), None)
+    else:
+      res2 = (platform_utils.call_servo_torch(examples, serving_bundle), None)
+      return res2
